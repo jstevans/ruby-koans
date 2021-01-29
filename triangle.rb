@@ -14,6 +14,12 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
+  sorted = [a, b, c].sort!
+  if sorted[0] <= 0
+    raise TriangleError, "Sides must be all-positive"
+  elsif sorted[0] + sorted[1] <= sorted[2]
+    raise TriangleError, "Each side must be shorter than the sum of the other two"
+  end
   case [a, b, c].uniq.length
     in 1
       :equilateral
