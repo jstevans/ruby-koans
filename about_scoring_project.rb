@@ -29,8 +29,24 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 #
 # Your goal is to write the score method.
 
+def points(freq, set_points, single_points)
+  (freq < 3 ? 0 : set_points) + (freq % 3) * single_points
+end
+
 def score(dice)
-  # You need to write this method
+  freqs = dice.each.with_object(Hash.new(0)) do |d, h|
+    h[d] += 1
+  end
+  freqs.reduce(0) do | sum, (d, f)|
+    sum + (case d
+      in 1
+        points(f, 1000, 100)
+      in 5
+        points(f, 500, 50)
+      in _
+        points(f, 100*d, 0)
+    end)
+  end
 end
 
 class AboutScoringProject < Neo::Koan
